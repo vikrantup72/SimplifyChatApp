@@ -26,3 +26,15 @@ export const banner = [
   {id: 4, banner: require('../images/banner4.jpg')},
   {id: 5, banner: require('../images/banner2.jpeg')},
 ];
+export const MovieList = [
+  {id: 1, banner: require('../images/banner1.jpeg')},
+  {id: 2, banner: require('../images/banner2.jpeg')},
+  {id: 3, banner: require('../images/banner3.jpeg')},
+  {id: 4, banner: require('../images/banner4.jpg')},
+  {id: 5, banner: require('../images/banner2.jpeg')},
+  {id: 6, banner: require('../images/banner1.jpeg')},
+  {id: 7, banner: require('../images/banner2.jpeg')},
+  {id: 8, banner: require('../images/banner3.jpeg')},
+  {id: 9, banner: require('../images/banner4.jpg')},
+  {id: 10, banner: require('../images/banner2.jpeg')},
+];

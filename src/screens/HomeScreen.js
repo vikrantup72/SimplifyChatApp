@@ -9,11 +9,14 @@ import {
   StatusBar,
   SafeAreaView,
   View,
+  ScrollView,
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 import FeatureBanner from '../components/FeatureBanner';
+import MessageFabIcon from '../components/MessageFabIcon';
 import ScreenHeader from '../components/ScreenHeader';
+import Top10MovieList from '../components/Top10MovieList';
 import {images, WINDOW_HEIGHT} from '../utils';
 
 export default function HomeScreen() {
@@ -28,11 +31,21 @@ export default function HomeScreen() {
           end={{x: 1, y: 0}}
           style={{flex: 1}}>
           <ScreenHeader label={'Home'} back={false} />
-          <FeatureBanner />
-          <TouchableOpacity
+          <ScrollView nestedScrollEnabled={true} style={{zIndex: 999}}>
+            <FeatureBanner />
+            <Top10MovieList lable={'Hindi Movies'} title={'Movie'} />
+            <Top10MovieList lable={'English Movie'} title={'Series'} />
+          </ScrollView>
+
+          {/* <TouchableOpacity
             onPress={() => navigation.navigate('ChatScreen')}
             style={styles.msgWrapper}>
             <Image source={images.msgFab} style={{width: 45, height: 44}} />
+          </TouchableOpacity> */}
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ChatScreen')}
+            style={styles.msgWrapper}>
+            <MessageFabIcon />
           </TouchableOpacity>
           <View style={styles.bubble1} />
           <View style={styles.bubble2} />
@@ -49,11 +62,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#0B0014',
   },
-  msgWrapper: {position: 'absolute', bottom: 20, right: 10},
+  msgWrapper: {position: 'absolute', bottom: 20, right: 10, zIndex: 9999},
   bubble1: {
     width: 170,
     height: 170,
-    backgroundColor: 'rgba(255,255,255,0.02)',
+    backgroundColor: 'rgba(255,255,255,0.09)',
     borderRadius: 170,
     position: 'absolute',
     bottom: WINDOW_HEIGHT / 2,
@@ -62,7 +75,7 @@ const styles = StyleSheet.create({
   bubble2: {
     width: 270,
     height: 270,
-    backgroundColor: 'rgba(255,255,255,0.03)',
+    backgroundColor: 'rgba(255,255,255,0.09)',
     borderRadius: 270,
     position: 'absolute',
     bottom: 140,
@@ -71,7 +84,7 @@ const styles = StyleSheet.create({
   bubble3: {
     width: 200,
     height: 200,
-    backgroundColor: 'rgba(255,255,255,0.02)',
+    backgroundColor: 'rgba(255,255,255,0.09)',
     borderRadius: 200,
     position: 'absolute',
     bottom: -40,
@@ -80,9 +93,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 170,
     height: 170,
-    backgroundColor: 'rgba(255,255,255,0.05)',
+    backgroundColor: 'rgba(255,255,255,0.09)',
     borderRadius: 120,
     top: -40,
-    right: 0,
+    right: -15,
   },
 });

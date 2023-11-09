@@ -38,7 +38,7 @@ const FeaturedBanner = () => {
   };
 
   return (
-    <View style={{marginTop: 20, zIndex: 999}}>
+    <View style={{marginTop: 20}}>
       <FlatList
         nestedScrollEnabled={true}
         getItemLayout={getItemLayout}
