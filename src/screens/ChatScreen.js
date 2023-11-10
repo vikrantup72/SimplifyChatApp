@@ -205,6 +205,7 @@ export default function ChatScreen() {
               getItemLayout={getItemLayout}
               keyExtractor={item => item.id.toString()}
               renderItem={({item, index}) => render(item, index)}
+              removeClippedSubviews={false}
             />
 
             {!isReceiver && (
