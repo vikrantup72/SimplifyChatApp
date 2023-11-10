@@ -19,7 +19,7 @@ import FeatureBanner from '../components/FeatureBanner';
 import MessageFabIcon from '../components/MessageFabIcon';
 import ScreenHeader from '../components/ScreenHeader';
 import Top10MovieList from '../components/Top10MovieList';
-import {images, WINDOW_HEIGHT} from '../utils';
+import {images, WINDOW_HEIGHT, WINDOW_WIDTH} from '../utils';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -115,10 +115,23 @@ export default function HomeScreen() {
             <Top10MovieList lable={'English Movie'} title={'Series'} />
           </ScrollView>
           <TouchableOpacity
-            onPress={() => navigation.navigate('ChatScreen')}
+            onPress={() => navigation.navigate('ChatScreenV2')}
             style={styles.msgWrapper}>
-            <MessageFabIcon />
+            <MessageFabIcon version={'V2'} />
           </TouchableOpacity>
+          <View
+            style={{
+              position: 'relative',
+              zIndex: 9999,
+              left: -WINDOW_WIDTH / 1.3,
+            }}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ChatScreen')}
+              style={styles.msgWrapper}>
+              <MessageFabIcon version={'V1'} />
+            </TouchableOpacity>
+          </View>
+
           <Animated.View style={styles.bubble1(bubble1Height)} />
           <Animated.View style={styles.bubble2(bubble2Height)} />
           <Animated.View style={styles.bubble3(bubble3Height)} />

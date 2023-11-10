@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import ChatScreen from './screens/ChatScreen';
 import HomeScreen from './screens/HomeScreen';
+import ChatScreenV2 from './screens/ChatScreenV2';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,11 @@ export default () => (
       <Stack.Screen
         name="ChatScreen"
         component={ChatScreen}
+        options={{header: () => null}}
+      />
+      <Stack.Screen
+        name="ChatScreenV2"
+        component={ChatScreenV2}
         options={{header: () => null}}
       />
     </Stack.Navigator>

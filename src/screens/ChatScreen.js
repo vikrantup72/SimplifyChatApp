@@ -191,7 +191,7 @@ export default function ChatScreen() {
           start={{x: !isReceiver ? 0 : 1, y: 0}}
           end={{x: !isReceiver ? 1 : 0, y: 0}}
           style={{flex: 1}}>
-          <ScreenHeader label={'Chat'} back={true} onPress={showModal} />
+          <ScreenHeader label={'Chat V1'} back={true} onPress={showModal} />
           <ModalComponent>{InfoModal()}</ModalComponent>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 1}

@@ -1,8 +1,8 @@
 import React, {useRef, useEffect} from 'react';
-import {View, StyleSheet, Animated} from 'react-native';
+import {View, StyleSheet, Animated, Text} from 'react-native';
 import {images} from '../utils';
 
-const MessageFabIcon = () => {
+const MessageFabIcon = ({version}) => {
   const buttonHeight = useRef(new Animated.Value(44)).current;
   const buttonRotate = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(100)).current; // Initial position above the screen
@@ -10,13 +10,13 @@ const MessageFabIcon = () => {
   const animateButton = () => {
     const animationConfig = {
       toValue: 60,
-      duration: 600,
+      duration: 1200,
       useNativeDriver: false,
     };
 
     const reverseConfig = {
       toValue: 44,
-      duration: 600,
+      duration: 1200,
       useNativeDriver: false,
     };
 
@@ -75,6 +75,7 @@ const MessageFabIcon = () => {
           ],
         }}
       />
+      <Text style={styles.text}>{version}</Text>
     </Animated.View>
   );
 };
@@ -83,6 +84,12 @@ const styles = StyleSheet.create({
   container: {backgroundColor: '#fff', padding: 4, borderRadius: 200},
   button: {backgroundColor: '#3498db', padding: 15, borderRadius: 8},
   buttonText: {color: '#fff', fontSize: 16, textAlign: 'center'},
+  text: {
+    position: 'absolute',
+    color: 'red',
+    fontSize: 22,
+    fontWeight: '900',
+  },
 });
 
 export default MessageFabIcon;
