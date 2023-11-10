@@ -2,6 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-native/no-inline-styles */
 import {useNavigation} from '@react-navigation/native';
+import {useEffect, useRef} from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -10,6 +11,7 @@ import {
   SafeAreaView,
   View,
   ScrollView,
+  Animated,
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
@@ -21,6 +23,82 @@ import {images, WINDOW_HEIGHT} from '../utils';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
+  const bubble1Height = useRef(new Animated.Value(0)).current;
+  const bubble2Height = useRef(new Animated.Value(0)).current;
+  const bubble3Height = useRef(new Animated.Value(200)).current;
+  const bubble4Height = useRef(new Animated.Value(170)).current;
+
+  const bubbleAnimation = () => {
+    const bubble1Config = {
+      toValue: 170,
+      duration: 6000,
+      useNativeDriver: false,
+      easing: Animated.linear,
+    };
+    const reverseBubble1Config = {
+      toValue: 0,
+      duration: 12000,
+      useNativeDriver: false,
+      easing: Animated.linear,
+    };
+    const bubble4Config = {
+      toValue: 0,
+      duration: 6000,
+      useNativeDriver: false,
+      easing: Animated.linear,
+    };
+    const reverseBubble4Config = {
+      toValue: 170,
+      duration: 12000,
+      useNativeDriver: false,
+      easing: Animated.linear,
+    };
+    const bubble3Config = {
+      toValue: 0,
+      duration: 6000,
+      useNativeDriver: false,
+      easing: Animated.linear,
+    };
+    const reverseBubble3Config = {
+      toValue: 200,
+      duration: 12000,
+      useNativeDriver: false,
+      easing: Animated.linear,
+    };
+    const bubble2Config = {
+      toValue: 270,
+      duration: 6000,
+      useNativeDriver: false,
+      easing: Animated.linear,
+    };
+    const reverseBubble2Config = {
+      toValue: 0,
+      duration: 12000,
+      useNativeDriver: false,
+      easing: Animated.linear,
+    };
+    Animated.sequence([
+      Animated.parallel([
+        Animated.timing(bubble1Height, bubble1Config),
+        Animated.timing(bubble4Height, bubble4Config),
+        Animated.timing(bubble2Height, bubble2Config),
+        Animated.timing(bubble3Height, bubble3Config),
+      ]),
+      Animated.parallel([
+        Animated.timing(bubble4Height, reverseBubble4Config),
+        Animated.timing(bubble3Height, reverseBubble3Config),
+        Animated.timing(bubble1Height, reverseBubble1Config),
+        Animated.timing(bubble2Height, reverseBubble2Config),
+      ]),
+    ]).start(() => {
+      bubbleAnimation();
+    });
+  };
+
+  useEffect(() => {
+    bubbleAnimation();
+  }, []);
+
   return (
     <>
       <StatusBar animated={true} backgroundColor={'#4b1380'} />
@@ -36,21 +114,15 @@ export default function HomeScreen() {
             <Top10MovieList lable={'Hindi Movies'} title={'Movie'} />
             <Top10MovieList lable={'English Movie'} title={'Series'} />
           </ScrollView>
-
-          {/* <TouchableOpacity
-            onPress={() => navigation.navigate('ChatScreen')}
-            style={styles.msgWrapper}>
-            <Image source={images.msgFab} style={{width: 45, height: 44}} />
-          </TouchableOpacity> */}
           <TouchableOpacity
             onPress={() => navigation.navigate('ChatScreen')}
             style={styles.msgWrapper}>
             <MessageFabIcon />
           </TouchableOpacity>
-          <View style={styles.bubble1} />
-          <View style={styles.bubble2} />
-          <View style={styles.bubble3} />
-          <View style={styles.bubble4} />
+          <Animated.View style={styles.bubble1(bubble1Height)} />
+          <Animated.View style={styles.bubble2(bubble2Height)} />
+          <Animated.View style={styles.bubble3(bubble3Height)} />
+          <Animated.View style={styles.bubble4(bubble4Height)} />
         </LinearGradient>
       </SafeAreaView>
     </>
@@ -63,39 +135,41 @@ const styles = StyleSheet.create({
     backgroundColor: '#0B0014',
   },
   msgWrapper: {position: 'absolute', bottom: 20, right: 10, zIndex: 9999},
-  bubble1: {
-    width: 170,
-    height: 170,
-    backgroundColor: 'rgba(255,255,255,0.09)',
+  bubble1: hw => ({
+    width: hw,
+    height: hw,
+    backgroundColor: 'rgba(182, 217, 255, 0.2)',
     borderRadius: 170,
     position: 'absolute',
     bottom: WINDOW_HEIGHT / 2,
     left: -40,
-  },
-  bubble2: {
-    width: 270,
-    height: 270,
-    backgroundColor: 'rgba(255,255,255,0.09)',
+    overflow: 'hidden',
+  }),
+  bubble2: hw => ({
+    width: hw,
+    height: hw,
+    backgroundColor: 'rgba(182, 217, 255, 0.2)',
     borderRadius: 270,
     position: 'absolute',
     bottom: 140,
     right: -100,
-  },
-  bubble3: {
-    width: 200,
-    height: 200,
-    backgroundColor: 'rgba(255,255,255,0.09)',
+  }),
+  bubble3: hw => ({
+    width: hw,
+    height: hw,
+    backgroundColor: 'rgba(182, 217, 255, 0.2)',
     borderRadius: 200,
     position: 'absolute',
     bottom: -40,
-  },
-  bubble4: {
+    left: -20,
+  }),
+  bubble4: hw => ({
     position: 'absolute',
-    width: 170,
-    height: 170,
-    backgroundColor: 'rgba(255,255,255,0.09)',
+    width: hw,
+    height: hw,
+    backgroundColor: 'rgba(182, 217, 255, 0.2)',
     borderRadius: 120,
     top: -40,
     right: -15,
-  },
+  }),
 });
