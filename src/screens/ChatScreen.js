@@ -47,7 +47,7 @@ export default function ChatScreen() {
   };
   const getItemLayout = (data, index) => {
     let offset = 0;
-    for (let i = 0; i < index; i++) {
+    for (let i = 0; i <= index; i++) {
       offset += messageHeights[i] || 87.2727279663086;
     }
     // If the height for the current index is not available, use a default height
