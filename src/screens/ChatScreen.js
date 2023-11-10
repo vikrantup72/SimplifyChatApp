@@ -16,6 +16,7 @@ import {
   StatusBar,
   SafeAreaView,
   Platform,
+  Alert,
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
@@ -25,6 +26,7 @@ import {usePopupModal} from '../utils/customHook';
 
 export default function ChatScreen() {
   const [messages, setMessages] = useState([]);
+  const [messageHeights, setMessageHeights] = useState({});
   const [text, setText] = useState('');
   const flatListRef = useRef(null);
   const [isReceiver, setReceiver] = useState(false);
@@ -37,11 +39,23 @@ export default function ChatScreen() {
     hideModal();
     flatListRef.current.scrollToEnd({animated: true, index: 0});
   };
+  const calculateMessageHeight = (index, height) => {
+    setMessageHeights(prevHeights => ({
+      ...prevHeights,
+      [index]: height || 87.2727279663086,
+    }));
+  };
+  const getItemLayout = (data, index) => {
+    let offset = 0;
+    for (let i = 0; i < index; i++) {
+      offset += messageHeights[i] || 87.2727279663086;
+    }
+    // If the height for the current index is not available, use a default height
+    const currentHeight = messageHeights[index] || 87.2727279663086;
 
-  const getItemLayout = (_, index) => {
     return {
-      length: WINDOW_HEIGHT,
-      offset: index * 70, // Set a default offset here
+      length: currentHeight,
+      offset,
       index,
     };
   };
@@ -126,9 +140,13 @@ export default function ChatScreen() {
     );
   };
 
-  const render = item => {
+  const render = (item, index) => {
     return (
-      <>
+      <View
+        style={{flex: 1}}
+        onLayout={event =>
+          calculateMessageHeight(index, event.nativeEvent.layout.height)
+        }>
         <LinearGradient
           colors={['#4b1380', 'transparent']}
           start={{x: !isReceiver ? 0 : 1, y: 0}}
@@ -161,7 +179,7 @@ export default function ChatScreen() {
             />
           </View>
         )}
-      </>
+      </View>
     );
   };
 
@@ -186,7 +204,7 @@ export default function ChatScreen() {
               showsVerticalScrollIndicator={false}
               getItemLayout={getItemLayout}
               keyExtractor={item => item.id.toString()}
-              renderItem={({item}) => render(item)}
+              renderItem={({item, index}) => render(item, index)}
             />
 
             {!isReceiver && (
