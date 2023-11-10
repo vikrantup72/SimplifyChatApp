@@ -2,7 +2,7 @@
 /* eslint-disable curly */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -16,12 +16,11 @@ import {
   StatusBar,
   SafeAreaView,
   Platform,
-  Alert,
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 import ScreenHeader from '../components/ScreenHeader';
-import {images, WINDOW_HEIGHT} from '../utils';
+import {images} from '../utils';
 import {usePopupModal} from '../utils/customHook';
 
 export default function ChatScreen() {
@@ -45,7 +44,7 @@ export default function ChatScreen() {
       [index]: height || 87.2727279663086,
     }));
   };
-  const getItemLayout = (data, index) => {
+  const getItemLayout = (_, index) => {
     let offset = 0;
     for (let i = 0; i <= index; i++) {
       offset += messageHeights[i] || 87.2727279663086;
