@@ -12,17 +12,23 @@ import {
   View,
   ScrollView,
   Animated,
+  Text,
+  ImageBackground,
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
+import {useBottomSheet} from '../components/CustomBottomSheet';
 import FeatureBanner from '../components/FeatureBanner';
 import MessageFabIcon from '../components/MessageFabIcon';
 import ScreenHeader from '../components/ScreenHeader';
 import Top10MovieList from '../components/Top10MovieList';
-import {images, WINDOW_HEIGHT, WINDOW_WIDTH} from '../utils';
+import {banner, dummyText, images, WINDOW_HEIGHT, WINDOW_WIDTH} from '../utils';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
+  const {showBottomSheet, hideBottomSheet, BottomSheetComponent} =
+    useBottomSheet();
+
   const bubble1Height = useRef(new Animated.Value(0)).current;
   const bubble2Height = useRef(new Animated.Value(0)).current;
   const bubble3Height = useRef(new Animated.Value(200)).current;
@@ -99,6 +105,28 @@ export default function HomeScreen() {
     bubbleAnimation();
   }, []);
 
+  const translateY = useRef(new Animated.Value(WINDOW_HEIGHT)).current;
+
+  const showBottomSheets = () => {
+    Animated.timing(translateY, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: false,
+    }).start(() => {
+      showBottomSheet();
+    });
+  };
+
+  const hideBottomSheets = () => {
+    Animated.timing(translateY, {
+      toValue: WINDOW_HEIGHT,
+      duration: 300,
+      useNativeDriver: false,
+    }).start(() => {
+      hideBottomSheet();
+    });
+  };
+  const randomNumber = Math.floor(Math.random() * 5);
   return (
     <>
       <StatusBar animated={true} backgroundColor={'#4b1380'} />
@@ -111,8 +139,16 @@ export default function HomeScreen() {
           <ScreenHeader label={'Home'} back={false} />
           <ScrollView nestedScrollEnabled={true} style={{zIndex: 999}}>
             <FeatureBanner />
-            <Top10MovieList lable={'Hindi Movies'} title={'Movie'} />
-            <Top10MovieList lable={'English Movie'} title={'Series'} />
+            <Top10MovieList
+              lable={'Hindi Movies'}
+              title={'Movie'}
+              onPress={showBottomSheets}
+            />
+            <Top10MovieList
+              lable={'English Movie'}
+              title={'Series'}
+              onPress={showBottomSheets}
+            />
           </ScrollView>
           <TouchableOpacity
             onPress={() => navigation.navigate('ChatScreenV2')}
@@ -136,6 +172,69 @@ export default function HomeScreen() {
           <Animated.View style={styles.bubble2(bubble2Height)} />
           <Animated.View style={styles.bubble3(bubble3Height)} />
           <Animated.View style={styles.bubble4(bubble4Height)} />
+          <Animated.View
+            style={[styles.container, {transform: [{translateY}]}]}>
+            <BottomSheetComponent>
+              <ImageBackground
+                source={banner[randomNumber]?.banner}
+                style={{
+                  width: '100%',
+                  height: 320,
+                  alignSelf: 'flex-end',
+                  position: 'absolute',
+                }}
+                resizeMode="cover"
+                borderBottomLeftRadius={70}
+                blurRadius={40}
+              />
+              <View style={{marginLeft: 20}}>
+                <ImageBackground
+                  source={banner[randomNumber]?.banner}
+                  style={{
+                    width: '100%',
+                    height: 300,
+                    alignSelf: 'flex-end',
+
+                    justifyContent: 'center',
+                  }}
+                  resizeMode="cover"
+                  borderBottomLeftRadius={70}>
+                  <Text onPress={hideBottomSheets} style={styles.back}>
+                    ◀Back
+                  </Text>
+                  <View
+                    style={{
+                      backgroundColor: '#fff',
+                      alignSelf: 'flex-end',
+                      padding: 12,
+                      borderRadius: 12,
+                      margin: 12,
+                      justifyContent: 'space-between',
+                      height: 240,
+                    }}>
+                    <Text style={styles.back}>❤️</Text>
+                    <Text style={styles.back}>📕</Text>
+                    <Text style={styles.back}>🖇️</Text>
+                  </View>
+                </ImageBackground>
+              </View>
+              <Text
+                style={{
+                  marginTop: 40,
+                  paddingHorizontal: 20,
+                  color: '#fff',
+                  lineHeight: 22,
+                  fontSize: 12,
+                  fontWeight: '600',
+                  letterSpacing: 0.5,
+                }}>
+                {dummyText}
+              </Text>
+              <TouchableOpacity onPress={hideBottomSheets} style={styles.close}>
+                <Text style={{color: 'red'}}>❌</Text>
+              </TouchableOpacity>
+            </BottomSheetComponent>
+          </Animated.View>
         </LinearGradient>
       </SafeAreaView>
     </>
@@ -143,6 +242,11 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    ...StyleSheet.absoluteFill,
+    zIndex: 9999,
+    flex: 1,
+  },
   activityWrapper: {
     flex: 1,
     backgroundColor: '#0B0014',
@@ -185,4 +289,25 @@ const styles = StyleSheet.create({
     top: -40,
     right: -15,
   }),
+  back: {
+    fontSize: 14,
+    color: '#fff',
+    fontWeight: '600',
+    lineHeight: 21,
+    letterSpacing: 2,
+    textTransform: 'uppercase',
+    width: '30%',
+    paddingTop: 10,
+  },
+  close: {
+    backgroundColor: '#fff',
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    width: 45,
+    height: 45,
+    borderRadius: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

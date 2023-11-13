@@ -1,9 +1,16 @@
 import React, {useRef, useCallback} from 'react';
-import {FlatList, Image, StyleSheet, View, Text} from 'react-native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 
 import {MovieList, normalize, WINDOW_WIDTH} from '../utils';
 
-const Top10MovieList = ({lable, title}) => {
+const Top10MovieList = ({lable, title, onPress}) => {
   const flatListRef = useRef(null);
 
   const getItemLayout = (_, index) => ({
@@ -34,14 +41,14 @@ const Top10MovieList = ({lable, title}) => {
         showsHorizontalScrollIndicator={false}
         keyExtractor={(_, index) => index?.toString()}
         renderItem={({item, index}) => (
-          <View style={styles.movieContainer}>
+          <TouchableOpacity onPress={onPress} style={styles.movieContainer}>
             <Image
               source={item.banner}
               style={styles.movieImage}
               resizeMode="cover"
             />
             <Text style={styles.movieTitle}>{title + (index + 1)}</Text>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>

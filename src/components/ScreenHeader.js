@@ -16,11 +16,10 @@ import CustomDrawer from './CustomDrawer';
 const ScreenHeader = ({back, label, onPress}) => {
   const navigation = useNavigation();
   const [isDrawer, setIsDrawer] = useState(false);
-  const translateX = useRef(new Animated.Value(-440)).current;
+  const translateX = useRef(new Animated.Value(-240)).current;
 
   const openDrawer = () => {
-    const toValue = isDrawer ? -440 : 0;
-
+    const toValue = isDrawer ? -240 : 0;
     Animated.timing(translateX, {
       toValue,
       duration: 300,
@@ -147,7 +146,7 @@ const styles = StyleSheet.create({
     zIndex: 999999,
   },
   drawerContain: {
-    width: 240,
+    width: 280,
     height: '100%',
     backgroundColor: '#fff',
     position: 'absolute',
