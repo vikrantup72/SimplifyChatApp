@@ -202,16 +202,7 @@ export default function HomeScreen() {
                   <Text onPress={hideBottomSheets} style={styles.back}>
                     ◀Back
                   </Text>
-                  <View
-                    style={{
-                      backgroundColor: '#fff',
-                      alignSelf: 'flex-end',
-                      padding: 12,
-                      borderRadius: 12,
-                      margin: 12,
-                      justifyContent: 'space-between',
-                      height: 240,
-                    }}>
+                  <View style={styles.likeWrapper}>
                     <Text style={styles.back}>❤️</Text>
                     <Text style={styles.back}>📕</Text>
                     <Text style={styles.back}>🖇️</Text>
@@ -309,5 +300,19 @@ const styles = StyleSheet.create({
     borderRadius: 45,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  likeWrapper: {
+    backgroundColor: '#fff',
+    alignSelf: 'flex-end',
+    padding: 12,
+    borderRadius: 12,
+    margin: 12,
+    justifyContent: 'space-between',
+    height: 240,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 6, // For Android
   },
 });

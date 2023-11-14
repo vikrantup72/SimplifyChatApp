@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {MovieList, normalize, WINDOW_WIDTH} from '../utils';
 
@@ -42,12 +43,31 @@ const Top10MovieList = ({lable, title, onPress}) => {
         keyExtractor={(_, index) => index?.toString()}
         renderItem={({item, index}) => (
           <TouchableOpacity onPress={onPress} style={styles.movieContainer}>
+            <LinearGradient
+              colors={[
+                'transparent',
+                'rgba(00, 00, 00, 0.7)',
+                'rgba(00, 00, 00, 0.7)',
+              ]}
+              start={{x: 0, y: 0}}
+              end={{x: 0, y: 0.4}}
+              style={styles.imgOverlay}>
+              <View style={styles.textWrapper}>
+                <Text style={styles.movieTitle}>{title + (index + 1)}</Text>
+                <Text numberOfLines={2} style={styles.desc}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  faucibus, arcu nec convallis euismod,
+                </Text>
+                <Text style={styles.date}>22/0/4/2023</Text>
+              </View>
+            </LinearGradient>
+            <Text style={styles.favorite}>❤️</Text>
+
             <Image
               source={item.banner}
               style={styles.movieImage}
               resizeMode="cover"
             />
-            <Text style={styles.movieTitle}>{title + (index + 1)}</Text>
           </TouchableOpacity>
         )}
       />
@@ -76,10 +96,38 @@ const styles = StyleSheet.create({
     height: normalize(150),
     borderRadius: 10,
     marginBottom: 5,
+    overflow: 'hidden',
   },
   movieTitle: {
     fontSize: 12,
-    textAlign: 'center',
+    color: '#fff',
+    fontWeight: '600',
+  },
+  imgOverlay: {
+    position: 'absolute',
+    height: 60,
+    width: 140,
+    bottom: 5,
+    zIndex: 999,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    overflow: 'hidden',
+  },
+  favorite: {
+    position: 'absolute',
+    zIndex: 9999,
+    color: 'red',
+    right: 25,
+    top: 10,
+    backgroundColor: '#fff',
+    padding: 6,
+    borderRadius: 100,
+  },
+  textWrapper: {paddingHorizontal: 4, paddingTop: 6},
+  desc: {
+    fontSize: 9,
+    alignSelf: 'flex-start',
     color: '#fff',
   },
+  date: {fontSize: 9, alignSelf: 'flex-end', color: '#fff'},
 });
