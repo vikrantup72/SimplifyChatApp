@@ -1,22 +1,8 @@
-import React, {useRef, useState} from 'react';
-import {StyleSheet, Animated} from 'react-native';
+import React from 'react';
+import {StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {WINDOW_HEIGHT} from '../utils';
 
-// Custom modal hook
 export const useBottomSheet = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const translateY = useRef(new Animated.Value(WINDOW_HEIGHT)).current;
-
-  const showBottomSheet = () => {
-    setModalVisible(true);
-  };
-
-  const hideBottomSheet = () => {
-    setModalVisible(false);
-  };
-
   const BottomSheetComponent = ({children}) => {
     return (
       <LinearGradient
@@ -29,7 +15,7 @@ export const useBottomSheet = () => {
     );
   };
 
-  return {showBottomSheet, hideBottomSheet, BottomSheetComponent};
+  return {BottomSheetComponent};
 };
 
 const styles = StyleSheet.create({

@@ -6,7 +6,6 @@ import {useEffect, useRef} from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
-  Image,
   StatusBar,
   SafeAreaView,
   View,
@@ -14,6 +13,7 @@ import {
   Animated,
   Text,
   ImageBackground,
+  BackHandler,
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
@@ -22,12 +22,11 @@ import FeatureBanner from '../components/FeatureBanner';
 import MessageFabIcon from '../components/MessageFabIcon';
 import ScreenHeader from '../components/ScreenHeader';
 import Top10MovieList from '../components/Top10MovieList';
-import {banner, dummyText, images, WINDOW_HEIGHT, WINDOW_WIDTH} from '../utils';
+import {banner, dummyText, WINDOW_HEIGHT, WINDOW_WIDTH} from '../utils';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
-  const {showBottomSheet, hideBottomSheet, BottomSheetComponent} =
-    useBottomSheet();
+  const {BottomSheetComponent} = useBottomSheet();
 
   const bubble1Height = useRef(new Animated.Value(0)).current;
   const bubble2Height = useRef(new Animated.Value(0)).current;
@@ -112,9 +111,7 @@ export default function HomeScreen() {
       toValue: 0,
       duration: 300,
       useNativeDriver: false,
-    }).start(() => {
-      showBottomSheet();
-    });
+    }).start();
   };
 
   const hideBottomSheets = () => {
@@ -122,11 +119,27 @@ export default function HomeScreen() {
       toValue: WINDOW_HEIGHT,
       duration: 300,
       useNativeDriver: false,
-    }).start(() => {
-      hideBottomSheet();
-    });
+    }).start();
   };
   const randomNumber = Math.floor(Math.random() * 5);
+
+  useEffect(() => {
+    const backAction = () => {
+      const currentTranslateY = translateY._value;
+      let isPopUp = currentTranslateY === 0;
+      if (isPopUp) {
+        hideBottomSheets();
+        return true;
+      }
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+    return () => backHandler.remove();
+  });
+
   return (
     <>
       <StatusBar animated={true} backgroundColor={'#4b1380'} />
@@ -137,7 +150,10 @@ export default function HomeScreen() {
           end={{x: 1, y: 0}}
           style={{flex: 1}}>
           <ScreenHeader label={'Home'} back={false} />
-          <ScrollView nestedScrollEnabled={true} style={{zIndex: 999}}>
+          <ScrollView
+            bounces={false}
+            nestedScrollEnabled={true}
+            style={{zIndex: 999}}>
             <FeatureBanner />
             <Top10MovieList
               lable={'Hindi Movies'}

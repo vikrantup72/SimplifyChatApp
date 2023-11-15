@@ -41,6 +41,7 @@ const CustomDrawer = ({closeDrawer}) => {
       <View style={{marginTop: 40}}>
         <FlatList
           data={drawerItemList}
+          scrollEnabled={false}
           ItemSeparatorComponent={
             <LinearGradient
               colors={['#fff', 'transparent']}

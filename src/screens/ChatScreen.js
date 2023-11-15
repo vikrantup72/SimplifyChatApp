@@ -373,6 +373,6 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 20,
     right: 10,
-    top: 60,
+    top: Platform.OS === 'ios' ? 110 : 60,
   },
 });

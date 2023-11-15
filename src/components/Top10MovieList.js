@@ -38,6 +38,7 @@ const Top10MovieList = ({lable, title, onPress}) => {
         horizontal
         ref={flatListRef}
         data={MovieList}
+        bounces={false}
         onMomentumScrollEnd={onMomentumScrollEnd}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(_, index) => index?.toString()}
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     padding: 6,
     borderRadius: 100,
   },
-  textWrapper: {paddingHorizontal: 4, paddingTop: 6},
+  textWrapper: {paddingHorizontal: 4, paddingTop: 4},
   desc: {
     fontSize: 9,
     alignSelf: 'flex-start',
